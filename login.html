@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - Smart Expense Tracker</title>
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>💰 SmartExpense</h2>
+    <a href="home.html">Home</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="about.html">About</a>
+    <a href="login.html" class="active">Login</a>
+    <a href="register.html">Register</a>
+</div>
+
+<div class="main-content">
+
+<div class="auth-container">
+    <div class="auth-box">
+        <h1>Login</h1>
+        <p class="auth-subtitle">Welcome back to SmartExpense</p>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <div class="form-group checkbox">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Remember me</label>
+            </div>
+
+            <button type="submit" class="btn-submit">Login</button>
+        </form>
+
+        <div class="divider">
+            <span>OR</span>
+        </div>
+
+        <div class="social-login">
+            <button type="button" class="btn-social btn-google">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg>
+                Login with Google
+            </button>
+            <button type="button" class="btn-social btn-facebook">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a6 6 0 0 0-6 6v3H7v4h2v8h4v-8h2l1-4h-3V8a1 1 0 0 1 1-1h2z"></path></svg>
+                Login with Facebook
+            </button>
+        </div>
+
+        <div class="auth-footer">
+            <p>Don't have an account? <a href="register.html">Register here</a></p>
+            <p><a href="#">Forgot password?</a></p>
+        </div>
+    </div>
+</div>
+
+</div>
+
+</body>
+</html>

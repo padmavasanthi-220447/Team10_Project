@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+<link rel="stylesheet" href="css/dashboard.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>💰 SmartExpense</h2>
+    <a href="home.html">Home</a>
+    <a href="dashboard.html" class="active">Dashboard</a>
+    <a href="about.html">About</a>
+    <a href="login.html">Login</a>
+    <a href="register.html">Register</a>
+</div>
+
+<div class="main">
+
+<h1>Dashboard</h1>
+
+<!-- Summary Cards -->
+<div class="cards">
+    <div class="card">
+        <h3>Total Budget</h3>
+        <p id="totalBudget">₹0</p>
+    </div>
+
+    <div class="card">
+        <h3>Total Spent</h3>
+        <p id="totalSpent">₹0</p>
+    </div>
+
+    <div class="card">
+        <h3>Remaining</h3>
+        <p id="remaining">₹0</p>
+    </div>
+</div>
+
+<!-- Add Expense Form -->
+<div class="expense-form-container">
+    <h2>Add New Expense</h2>
+    <form id="expenseForm">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" name="category" required>
+                    <option value="">Select Category</option>
+                    <option value="Food">🍔 Food</option>
+                    <option value="Travel">🚗 Travel</option>
+                    <option value="Shopping">🛍️ Shopping</option>
+                    <option value="Entertainment">🎬 Entertainment</option>
+                    <option value="Utilities">💡 Utilities</option>
+                    <option value="Education">📚 Education</option>
+                    <option value="Healthcare">🏥 Healthcare</option>
+                    <option value="Other">📝 Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description" placeholder="Enter description" required>
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Amount (₹)</label>
+                <input type="number" id="amount" name="amount" placeholder="Enter amount" min="0" step="0.01" required>
+            </div>
+
+            <button type="submit" class="btn-add">Add Expense</button>
+        </div>
+    </form>
+</div>
+
+<!-- Set Budget -->
+<div class="budget-container">
+    <h2>Set Budget</h2>
+    <form id="budgetForm">
+        <div class="budget-input-group">
+            <label for="budgetAmount">Monthly Budget (₹)</label>
+            <input type="number" id="budgetAmount" name="budgetAmount" placeholder="Enter monthly budget" min="0" step="0.01" required>
+            <button type="submit" class="btn-set-budget">Set Budget</button>
+        </div>
+    </form>
+</div>
+
+<!-- Expenses Table -->
+<div class="recent">
+    <h2>Recent Expenses</h2>
+    <div class="table-container">
+        <table id="expensesTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="expensesList">
+                <!-- Expenses will be added here dynamically -->
+            </tbody>
+        </table>
+        <div id="emptyMessage" class="empty-message">No expenses yet. Add one to get started!</div>
+    </div>
+</div>
+
+<!-- Charts Section -->
+<h2>Expense Analytics</h2>
+<div class="charts-grid">
+    <!-- Pie Chart - Category Distribution -->
+    <div class="chart-container">
+        <h3>Expenses by Category</h3>
+        <canvas id="categoryChart"></canvas>
+    </div>
+
+    <!-- Bar Chart - Week wise -->
+    <div class="chart-container">
+        <h3>Weekly Expenses</h3>
+        <canvas id="weeklyChart"></canvas>
+    </div>
+
+    <!-- Line Chart - Daily Trend -->
+    <div class="chart-container">
+        <h3>Daily Expense Trend</h3>
+        <canvas id="dailyChart"></canvas>
+    </div>
+
+    <!-- Category Stats -->
+    <div class="chart-container">
+        <h3>Category Breakdown</h3>
+        <div id="categoryStats" class="category-stats"></div>
+    </div>
+</div>
+
+</div>
+
+<script src="js/dashboard.js"></script>
+
+</body>
+</html>
