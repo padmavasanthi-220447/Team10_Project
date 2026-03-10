@@ -1,6 +1,6 @@
 <?php
 
-include "config/db.php";
+include "db.php";
 
 $email = $_POST['email'];
 $password = $_POST['password'];
