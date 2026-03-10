@@ -31,7 +31,7 @@ $sql = "INSERT INTO users(fullname,email,phone,password)
 VALUES('$fullname','$email','$phone','$hashedPassword')";
 
 if($conn->query($sql)){
-    header("Location: ../../login.html");
+    header("Location:login.html");
 }else{
     echo "Registration failed";
 }
