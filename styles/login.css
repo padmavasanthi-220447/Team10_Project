@@ -118,7 +118,7 @@ font-weight:500;
 
 /* REGISTER FORM HIDDEN */
 
-#register-form{
+#login-form{
 display:none;
 }
 .page-wrapper{
