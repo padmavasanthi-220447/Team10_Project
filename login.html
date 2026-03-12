@@ -36,9 +36,9 @@
 
 <h2><center>Login</center></h2>
 
-<input type="email" placeholder="Email" required>
+<input type="email" name="email" placeholder="Email" required>
 
-<input type="password" placeholder="Password" required>
+<input type="password" name="password" placeholder="Password" required>
 
 <button type="submit">Login</button>
 
@@ -68,13 +68,13 @@ Login with Facebook
 
 <h2>Create Account</h2>
 
-<input type="text" placeholder="Full Name" required>
+<input type="text"  name="name" placeholder="Full Name" required>
 
-<input type="email" placeholder="Email" required>
+<input type="email" name="email" placeholder="Email" required>
 
-<input type="password" id="password" placeholder="Password" required>
+<input type="password"  name="password" id="password" placeholder="Password" required>
 
-<input type="password" id="confirm-password" placeholder="Confirm Password" required>
+<input type="password" name="confirm_password" id="confirm-password" placeholder="Confirm Password" required>
 
 <button type="submit">Register</button>
 
@@ -84,7 +84,7 @@ Already have an account?
 </p>
 <div class="divider">or</div>
 <div class="social-login">
-<button type="button" class="google-btn">
+<button type="button" class="google-btn"  onclick="googleLogin()">
 <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="social-icon">
 Continue with Google
 </button>
