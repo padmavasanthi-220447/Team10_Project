@@ -1,132 +1,88 @@
-let username = "Vikram";
+document.addEventListener("DOMContentLoaded", function () {
+  // ===== CHECK TOKEN =====
+  const token = localStorage.getItem("token");
+  if (!token) {
+    // silent redirect
+    window.location.href = "login.html";
+    return;
+  }
 
-document.getElementById("username").textContent = username;
-function confirmLogout(){
+  // ===== USERNAME =====
+  const username = "User"; // temporarily static
+  document.getElementById("username").textContent = username;
 
-let confirmAction = confirm("Are you sure you want to logout?");
-
-if(confirmAction){
-return true;   // allow redirect to login page
-}else{
-return false;  // stop redirect
-}
-
-}
-document.addEventListener("DOMContentLoaded", function(){
-
-updateDashboard();
-loadWeeklyGraph();
-
+  // ===== LOAD DASHBOARD =====
+  updateDashboard();
+  loadWeeklyGraph();
 });
 
-function updateDashboard(){
-
-let transactions = JSON.parse(localStorage.getItem("expenses")) || [];
-
-let monthlyBudget = parseFloat(localStorage.getItem("monthlyBudget")) || 0;
-
-let totalIncome = 0;
-let totalExpense = 0;
-let totalSavings = 0;
-
-transactions.forEach(item => {
-
-if(item.type === "income"){
-totalIncome += item.amount;
+// ===== LOGOUT =====
+function confirmLogout() {
+  const confirmAction = confirm("Are you sure you want to logout?");
+  if (confirmAction) {
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+  }
 }
 
-else if(item.type === "savings"){
-totalSavings += item.amount;
+// ===== DASHBOARD DATA =====
+function updateDashboard() {
+  const transactions = JSON.parse(localStorage.getItem("expenses")) || [];
+  const monthlyBudget = parseFloat(localStorage.getItem("monthlyBudget")) || 0;
+
+  let totalIncome = 0,
+    totalExpense = 0,
+    totalSavings = 0;
+
+  transactions.forEach((item) => {
+    if (item.type === "income") totalIncome += item.amount;
+    else if (item.type === "savings") totalSavings += item.amount;
+    else totalExpense += item.amount;
+  });
+
+  document.getElementById("budgetCard").textContent = "₹" + monthlyBudget;
+  document.getElementById("expenseCard").textContent = "₹" + totalExpense;
+  document.getElementById("savingsCard").textContent = "₹" + totalSavings;
 }
 
-else{
-totalExpense += item.amount;
-}
+// ===== WEEKLY GRAPH =====
+function loadWeeklyGraph() {
+  const transactions = JSON.parse(localStorage.getItem("expenses")) || [];
+  const weeklyExpenses = [0, 0, 0, 0, 0, 0, 0];
+  const weeklySavings = [0, 0, 0, 0, 0, 0, 0];
 
-});
+  transactions.forEach((item) => {
+    const date = new Date(item.date);
+    const day = date.getDay();
+    const index = (day + 6) % 7; // Monday start
+    if (item.type === "expense") weeklyExpenses[index] += item.amount;
+    if (item.type === "savings") weeklySavings[index] += item.amount;
+  });
 
-
-
-// UPDATE CARDS
-
-document.getElementById("budgetCard").textContent = "₹" + monthlyBudget;
-
-document.getElementById("expenseCard").textContent = "₹" + totalExpense;
-
-document.getElementById("savingsCard").textContent = "₹" + totalSavings;
-
-}
-
-function loadWeeklyGraph(){
-
-let transactions = JSON.parse(localStorage.getItem("expenses")) || [];
-
-let weeklyExpenses = [0,0,0,0,0,0,0];
-let weeklySavings = [0,0,0,0,0,0,0];
-
-transactions.forEach(item=>{
-
-let date = new Date(item.date);
-
-let day = date.getDay();
-
-let index = (day + 6) % 7; // Monday start
-
-if(item.type === "expense"){
-
-weeklyExpenses[index] += item.amount;
-
-}
-
-if(item.type === "savings"){
-
-weeklySavings[index] += item.amount;
-
-}
-
-});
-
-const ctx = document.getElementById("weeklyChart");
-
-new Chart(ctx,{
-type:"line",
-data:{
-labels:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
-datasets:[
-
-{
-label:"Expenses",
-data:weeklyExpenses,
-borderColor:"#e53935",
-backgroundColor:"rgba(229,57,53,0.2)",
-fill:true,
-tension:0.3
-},
-
-{
-label:"Savings",
-data:weeklySavings,
-borderColor:"#2e7d32",
-backgroundColor:"rgba(46,125,50,0.2)",
-fill:true,
-tension:0.3
-}
-
-]
-},
-options:{
-responsive:true,
-plugins:{
-legend:{
-display:true
-}
-},
-scales:{
-y:{
-beginAtZero:true
-}
-}
-}
-});
-
+  const ctx = document.getElementById("weeklyChart");
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      datasets: [
+        {
+          label: "Expenses",
+          data: weeklyExpenses,
+          borderColor: "#e53935",
+          backgroundColor: "rgba(229,57,53,0.2)",
+          fill: true,
+          tension: 0.3,
+        },
+        {
+          label: "Savings",
+          data: weeklySavings,
+          borderColor: "#2e7d32",
+          backgroundColor: "rgba(46,125,50,0.2)",
+          fill: true,
+          tension: 0.3,
+        },
+      ],
+    },
+    options: { responsive: true, scales: { y: { beginAtZero: true } } },
+  });
 }
