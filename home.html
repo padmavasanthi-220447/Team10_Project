@@ -1,0 +1,155 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CASH-COMPASS - Home</title>
+
+<link rel="icon" href="images/transparent_logo.png">
+<link rel="stylesheet" href="styles/home.css">
+
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+<div class="nav-left">
+
+<img src="images/transparent_logo.png" class="nav-logo">
+
+<h2>CASH COMPASS</h2>
+
+</div>
+
+<div class="nav-right">
+
+<a href="add-expense.html">Add Expense</a>
+
+<a href="analytics.html">Analytics</a>
+
+<a href="landing.html" class="logout-btn" onclick="return confirmLogout()">Logout</a>
+
+</div>
+
+</nav>
+
+
+<!-- MAIN CONTENT -->
+
+<section class="main-section">
+
+<div class="greeting">
+
+<h1>Hello, <span id="username">User</span> 👋</h1>
+
+<p>Here's your financial overview for this month.</p>
+
+</div>
+
+
+<div class="cards">
+
+<div class="card">
+<h3>This Month Budget</h3>
+<p id="budgetCard">₹0</p>
+</div>
+
+<!-- 🔥 NEW CARD -->
+<div class="card">
+<h3>Monthly Income</h3>
+<p id="incomeCard">₹0</p>
+</div>
+
+<div class="card">
+<h3>Total Expenses</h3>
+<p id="expenseCard">₹0</p>
+</div>
+
+<div class="card">
+<h3>Total Savings</h3>
+<p id="savingsCard">₹0</p>
+</div>
+
+</div>
+
+</section>
+<div class="goals-section">
+  <div class="goals-header">
+    <h2>🎯 My Goals</h2>
+    <button class="add-goal-btn" onclick="showGoalForm()">+ Add Goal</button>
+  </div>
+
+  <!-- FORM -->
+  <div id="goalForm" class="goal-form">
+    <input type="text" id="goalName" placeholder="Goal Name">
+    <input type="number" id="goalAmount" placeholder="Target Amount">
+    <input type="date" id="goalDeadline">
+    <input type="number" id="goalPriority" placeholder="Priority (1-5)">
+    <button onclick="addGoal()">Save Goal</button>
+  </div>
+
+  <!-- GOALS LIST -->
+  <div id="goalList" class="goal-list"></div>
+</div>
+<div class="chart-section">
+
+<h2>Weekly Expense Trend</h2>
+
+<canvas id="weeklyChart"></canvas>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+<p>© 2026 CASH COMPASS - A Smart Expense Tracker</p>
+
+</footer>
+
+</div>
+<!-- FLOATING CHAT BUTTON -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/config.js"></script>
+<script src="js/home.js"></script>
+<!-- FLOATING CHAT BUTTON -->
+<div id="chat-toggle">💬</div>
+
+<!-- CHAT CONTAINER -->
+<div id="chat-container">
+
+  <div id="chat-header">
+    <span>💡 Smart Advisor</span>
+    <button onclick="toggleChat()">✖</button>
+  </div>
+
+  <div id="chat-messages"></div>
+
+  <!-- TYPING -->
+  <div id="typing" style="display:none;">Typing...</div>
+
+  <!-- QUICK SUGGESTIONS -->
+  <div id="suggestions">
+    <button onclick="quickAsk('Can I save more money?')">💰 Save</button>
+    <button onclick="quickAsk('Where am I overspending?')">📊 Analyze</button>
+    <button onclick="quickAsk('Plan for buying a phone')">📱 Goal</button>
+  </div>
+
+  <div id="chat-input-area">
+    <input type="text" id="chat-input" placeholder="Ask about your finances..." />
+    <button onclick="sendChat()">➤</button>
+  </div>
+
+</div>
+</body>
+
+</html>
