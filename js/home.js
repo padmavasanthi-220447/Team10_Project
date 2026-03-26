@@ -34,26 +34,8 @@ document.addEventListener("DOMContentLoaded", async function(){
   // LOAD DASHBOARD
   await loadDashboard();
 
-  // CHAT TOGGLE INIT
-  const chatToggle = document.getElementById("chat-toggle");
-  const chatContainer = document.getElementById("chat-container");
-
-  if(chatToggle){
-    chatToggle.addEventListener("click", () => {
-      chatContainer.style.display = "flex";
-
-      const messagesDiv = document.getElementById("chat-messages");
-
-      if(messagesDiv.innerHTML.trim() === ""){
-        messagesDiv.innerHTML += `
-        <div class="bot-msg">
-        Hi 👋 I’m your Smart Advisor<br><br>
-        Ask me anything about your finances 💡
-        </div>
-        `;
-      }
-    });
-  }
+  // LOAD DASHBOARD
+  await loadDashboard();
 
   // ENTER KEY SUPPORT
   document.getElementById("chat-input").addEventListener("keydown", function(e){
@@ -234,9 +216,40 @@ function updateGraph(transactions){
 // CHATBOT FUNCTIONS
 // =========================
 
-// CLOSE CHAT
+// RENDER GREETING (FINAL OUTSTANDING & DEFINITIVE STYLE)
+function renderGreeting(){
+  const messagesDiv = document.getElementById("chat-messages");
+  if(!messagesDiv) return;
+
+  const userName = localStorage.getItem("userName") || "User";
+
+  // Force Clear for 'Nothing Changed' fix - ⚡ GUARANTEE VISIBILITY
+  messagesDiv.innerHTML = ""; 
+
+  messagesDiv.innerHTML = `
+    <div class="welcome-container">
+      <h1 style="color:#1a73e8 !important; font-weight:800; font-size:30px; margin-bottom:10px;">Hello, ${userName} 👋</h1>
+      <p style="color:#333 !important; font-size:16px; margin-bottom:25px; opacity:0.8;">I'm your Personal Finance Assistant. How can I help?</p>
+      
+      <div id="suggestions" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; width:100%; max-width:310px; margin: 0 auto;">
+        <button onclick="quickAsk('Analyze my spending')">📊 <div style="font-weight:600; font-size:13.5px;">Analyze spending</div></button>
+        <button onclick="quickAsk('Saving tips')">💰 <div style="font-weight:600; font-size:13.5px;">Saving tips</div></button>
+        <button onclick="quickAsk('Set a budget goal')">🎯 <div style="font-weight:600; font-size:13.5px;">Manage goals</div></button>
+        <button onclick="quickAsk('How to use this app?')">📱 <div style="font-weight:600; font-size:13.5px;">User guide</div></button>
+      </div>
+    </div>
+  `;
+}
+
+// TOGGLE CHAT
 function toggleChat(){
-  document.getElementById("chat-container").style.display = "none";
+  const container = document.getElementById("chat-container");
+  if(container.style.display === "flex"){
+     container.style.display = "none";
+  } else {
+     container.style.display = "flex";
+     renderGreeting();
+  }
 }
 
 
