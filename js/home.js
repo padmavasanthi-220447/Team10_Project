@@ -34,9 +34,6 @@ document.addEventListener("DOMContentLoaded", async function(){
   // LOAD DASHBOARD
   await loadDashboard();
 
-  // LOAD DASHBOARD
-  await loadDashboard();
-
   // ENTER KEY SUPPORT
   document.getElementById("chat-input").addEventListener("keydown", function(e){
     if(e.key === "Enter"){
@@ -273,6 +270,10 @@ async function sendChat(){
   const messagesDiv = document.getElementById("chat-messages");
   const typing = document.getElementById("typing");
 
+  // Remove initialization greeting if first message
+  const greeting = messagesDiv.querySelector(".welcome-container");
+  if (greeting) greeting.remove();
+
   messagesDiv.innerHTML += `<div class="user-msg">${message}</div>`;
   input.value = "";
 
@@ -282,18 +283,16 @@ async function sendChat(){
 
   try{
     const transactions = await fetchExpenses();
-
-    // ✅ ADD THIS (NEW)
     const userId = localStorage.getItem("userId");
     const monthlyBudget = localStorage.getItem(`monthlyBudget_${userId}`) || 0;
 
     const res = await fetch(window.buildApiUrl("/api/chat"), {
       method:"POST",
-      headers:{ "Content-Type":"application/json" },
+      headers:{ "Content-Type": "application/json" },
       body: JSON.stringify({
         message,
         transactions,
-        monthlyBudget   // ✅ FIX
+        monthlyBudget
       })
     });
 
@@ -311,7 +310,7 @@ async function sendChat(){
 }
 
 // goals
-let lastSavings = 0;
+let lastSavings = Number(localStorage.getItem("lastSavings")) || 0;
 
 async function handleSavingsChange(currentSavings){
 
@@ -320,11 +319,13 @@ async function handleSavingsChange(currentSavings){
   console.log("Savings changed:", currentSavings);
 
   lastSavings = currentSavings;
+  localStorage.setItem("lastSavings", currentSavings);
 
   if(currentSavings > 0){
     await updateGoalsFromSavings(currentSavings);
   }
 }
+
 async function updateGoalsFromSavings(savings){
 
   const userId = localStorage.getItem("userId");
@@ -343,6 +344,7 @@ async function updateGoalsFromSavings(savings){
   // refresh goals UI
   loadGoals();
 }
+
 async function loadGoals() {
   const userId = localStorage.getItem("userId");
 
@@ -377,11 +379,12 @@ async function loadGoals() {
     `;
   });
 }
+
 function showGoalForm() {
   const form = document.getElementById("goalForm");
-
   form.style.display = (form.style.display === "flex") ? "none" : "flex";
 }
+
 async function addGoal(){
 
   const userId = localStorage.getItem("userId");
@@ -419,6 +422,7 @@ async function addGoal(){
   // reload goals
   loadGoals();
 }
+
 async function deleteGoal(id){
   await fetch(window.buildApiUrl(`/api/goals/${id}`), {
     method: "DELETE"
@@ -426,6 +430,7 @@ async function deleteGoal(id){
 
   loadGoals();
 }
+
 async function editGoal(id){
 
   const name = prompt("New name:");
@@ -446,21 +451,7 @@ async function editGoal(id){
 
   loadGoals();
 }
-lastSavings = Number(localStorage.getItem("lastSavings")) || 0;
 
-async function handleSavingsChange(currentSavings){
-
-  if(currentSavings === lastSavings) return;
-
-  console.log("Savings changed:", currentSavings);
-
-  lastSavings = currentSavings;
-  localStorage.setItem("lastSavings", currentSavings);
-
-  if(currentSavings > 0){
-    await updateGoalsFromSavings(currentSavings);
-  }
-}
 function calculateSummaryHome(transactions, userId){
 
   // filter current month

@@ -157,6 +157,7 @@ color:#1565c0;
 width:100%;
 max-height:350px;
 }
+
 /* =========================
    WOW FACTOR CASH COMPASS CHATBOT
 ========================= */
@@ -191,7 +192,7 @@ max-height:350px;
   bottom: 100px;
   right: 25px;
   width: 360px;
-  height: 560px; /* Perfectly balanced height */
+  height: 560px;
   background: white;
   border-radius: 20px;
   display: none;
@@ -369,7 +370,7 @@ max-height:350px;
 }
 
 #chat-bottom-area {
-  padding: 15px 20px 20px; /* Balanced spacing */
+  padding: 15px 20px 20px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -397,11 +398,19 @@ max-height:350px;
   color: #202124;
 }
 
+.pill-icon.plus {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #5f6368;
+  cursor: pointer;
+}
+
 #send-btn {
   background: none;
   border: none;
   color: #1a73e8;
-  font-size: 32px; /* Large Blue Send Arrow */
+  font-size: 32px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -410,14 +419,6 @@ max-height:350px;
 
 #send-btn:hover {
   transform: scale(1.2);
-}
-
-#send-btn:hover {
-  transform: scale(1.15);
-}
-
-#send-btn:hover {
-  transform: scale(1.1) translateX(2px);
 }
 
 .chat-footer {
