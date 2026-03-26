@@ -6,6 +6,21 @@ let weeklyChart;
 // =========================
 document.addEventListener("DOMContentLoaded", async function(){
 
+  // ✅ HANDLE GOOGLE OAUTH CALLBACK (Extract tokens from URL if present)
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get("token");
+  const userId = urlParams.get("userId");
+  const userName = urlParams.get("name");
+
+  if (token && userId) {
+    localStorage.setItem("token", token);
+    localStorage.setItem("userId", userId);
+    localStorage.setItem("userName", userName || "User");
+    
+    // Clear URL parameters for security
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
   // USERNAME
   document.getElementById("username").textContent =
   localStorage.getItem("userName") || "User";

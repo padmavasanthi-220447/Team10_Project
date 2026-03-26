@@ -24,9 +24,7 @@ exports.getGoals = async (req, res) => {
 // UPDATE GOAL
 exports.updateGoal = async (req, res) => {
   try {
-    const goal = await Goal.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const goal = await Goal.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(goal);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -66,6 +64,7 @@ exports.distributeSavings = async (userId, totalSavings) => {
 
       await goal.save();
     }
+
   } catch (err) {
     console.error("Goal Distribution Error:", err);
   }
@@ -81,6 +80,7 @@ exports.distributeSavingsAPI = async (req, res) => {
     await exports.distributeSavings(userId, savings);
 
     res.json({ message: "Goals updated" });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error updating goals" });

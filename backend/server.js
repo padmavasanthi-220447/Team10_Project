@@ -1,9 +1,11 @@
-require("dotenv").config();
+require("dotenv").config({ path: require("path").resolve(__dirname, ".env") });
 
 const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const session = require("express-session");
+const passport = require("passport");
 const connectDB = require("./config/db");
 const { chatWithAI } = require("./controllers/chatController");
 const analyticsRoutes = require("./routes/analytics");
@@ -26,6 +28,18 @@ app.use(
   })
 );
 app.use(express.json());
+
+// ✅ SESSION & PASSPORT MIDDLEWARE
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "your-secret-key",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { httpOnly: true, sameSite: "lax", maxAge: 24 * 60 * 60 * 1000 },
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // ✅ CONNECT DB
 connectDB();
