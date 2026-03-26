@@ -122,33 +122,47 @@
 <script src="js/config.js"></script>
 <script src="js/home.js"></script>
 <!-- FLOATING CHAT BUTTON -->
-<div id="chat-toggle">💬</div>
+<!-- CHAT CONTAINER (GEMINI STYLE) -->
+<div id="chat-toggle">
+  <img src="images/transparent_logo.png" alt="Logo">
+</div>
 
-<!-- CHAT CONTAINER -->
 <div id="chat-container">
-
   <div id="chat-header">
-    <span>💡 Smart Advisor</span>
-    <button onclick="toggleChat()">✖</button>
+    <div class="header-left">
+      <img src="images/transparent_logo.png" alt="Logo">
+      <span>CASH COMPASS</span>
+    </div>
+    <div class="header-right">
+      <button onclick="toggleChat()">✕</button>
+    </div>
   </div>
 
-  <div id="chat-messages"></div>
-
-  <!-- TYPING -->
-  <div id="typing" style="display:none;">Typing...</div>
-
-  <!-- QUICK SUGGESTIONS -->
-  <div id="suggestions">
-    <button onclick="quickAsk('Can I save more money?')">💰 Save</button>
-    <button onclick="quickAsk('Where am I overspending?')">📊 Analyze</button>
-    <button onclick="quickAsk('Plan for buying a phone')">📱 Goal</button>
+  <div id="chat-messages">
+    <!-- Greeting and messages will be injected here -->
   </div>
 
-  <div id="chat-input-area">
-    <input type="text" id="chat-input" placeholder="Ask about your finances..." />
-    <button onclick="sendChat()">➤</button>
+  <div id="typing" style="display:none;">
+    <span>Compass AI is thinking...</span>
   </div>
 
+  <div id="chat-bottom-area">
+    <div id="suggestions">
+      <button onclick="quickAsk('Can I save more money?')">✨ Save More</button>
+      <button onclick="quickAsk('Analyze my spending')">📊 Analyze</button>
+      <button onclick="quickAsk('Plan a goal')">🎯 Goal Plan</button>
+    </div>
+
+    <div id="chat-input-pill">
+      <button class="pill-icon plus">+</button>
+      <input type="text" id="chat-input" placeholder="Ask anything about your finances..." />
+      <div class="pill-controls">
+        <span class="model-name">Compass AI</span>
+        <button id="send-btn" onclick="sendChat()">➤</button>
+      </div>
+    </div>
+    <p class="chat-footer">CASH COMPASS may provide financial guidance. Check for accuracy.</p>
+  </div>
 </div>
 </body>
 
