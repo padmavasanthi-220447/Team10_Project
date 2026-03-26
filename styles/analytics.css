@@ -9,7 +9,8 @@ body{
 min-height:100vh;
 display:flex;
 flex-direction:column;
-background:#f6f9ff;
+background: var(--bg-primary);
+color: var(--text-primary);
 }
 
 .page-wrapper{
@@ -25,8 +26,9 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 8%;
-background:white;
-box-shadow:0 3px 10px rgba(0,0,0,0.1);
+background: var(--bg-navbar);
+box-shadow: var(--shadow-sm);
+backdrop-filter: blur(8px);
 }
 
 .nav-left{
@@ -40,8 +42,9 @@ width:35px;
 }
 
 .nav-left h2{
-color:#1565c0;
+color: var(--text-nav-brand);
 }
+
 /* NAVBAR BUTTON LINKS */
 
 .nav-right{
@@ -52,57 +55,68 @@ gap:15px;
 .nav-right a{
 text-decoration:none;
 color:white;
-background:#1565c0;
+background: var(--accent);
 padding:10px 18px;
 border-radius:6px;
 font-weight:500;
 transition:0.3s;
 }
-.nav-right a:hover{
-background:#0d47a1;
-transform:translateY(-2px);
-box-shadow:0 4px 12px rgba(0,0,0,0.2);
-}
 
+.nav-right a:hover{
+background: var(--accent-hover);
+transform:translateY(-2px);
+box-shadow: var(--shadow-md);
+}
 
 /* ANALYTICS GRID */
 .analytics-grid{
-    width:90%;
-    margin:40px auto;
-
-    display:grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
-
-    gap:30px;
+width:90%;
+margin:40px auto;
+display:grid;
+grid-template-columns: repeat(2, 1fr);
+gap:30px;
 }
 
 .card{
-    background:#ffffff;
+background: var(--bg-card);
+padding:25px;
+border-radius:14px;
+box-shadow: var(--shadow-md);
+border: 1px solid var(--border-color);
+min-height:350px;
+transition: transform 0.25s, box-shadow 0.25s;
+}
 
-    padding:25px;
-
-    border-radius:12px;
-
-    box-shadow:0 4px 15px rgba(0,0,0,0.1);
-
-    min-height:350px;
+.card:hover{
+transform: translateY(-4px);
+box-shadow: var(--shadow-lg);
 }
 
 .card h3{
-    text-align:center;
-    margin-bottom:20px;
+text-align:center;
+margin-bottom:20px;
+color: var(--text-primary);
+font-size:16px;
+font-weight:600;
 }
 
 .card canvas{
-    width:100% !important;
-    height:300px !important;
+width:100% !important;
+height:300px !important;
 }
 
-
-/*FOOTER*/
+/* FOOTER */
 .footer{
 text-align:center;
 padding:20px;
-background:linear-gradient(135deg,#1565c0,#0d47a1);
-color:white;
+background: var(--bg-footer);
+color: var(--text-on-hero);
+}
+
+/* Dark mode card glow */
+[data-theme="dark"] .card {
+box-shadow: 0 4px 24px rgba(0,0,0,0.5),
+            0 0 0 1px rgba(59,130,246,0.08);
+background: rgba(30,41,59,0.9);
+backdrop-filter: blur(8px);
 }
