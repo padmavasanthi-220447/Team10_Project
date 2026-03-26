@@ -41,18 +41,7 @@ document.addEventListener("DOMContentLoaded", async function(){
   if(chatToggle){
     chatToggle.addEventListener("click", () => {
       chatContainer.style.display = "flex";
-
-      const messagesDiv = document.getElementById("chat-messages");
-      const userName = localStorage.getItem("userName") || "User";
-
-      if(messagesDiv.innerHTML.trim() === ""){
-        messagesDiv.innerHTML = `
-          <div class="bot-greeting">
-            <h1>Hello, ${userName}</h1>
-            <p>How can I help you manage your finances today?</p>
-          </div>
-        `;
-      }
+      renderGreeting();
     });
   }
 
@@ -234,6 +223,28 @@ function updateGraph(transactions){
 // =========================
 // CHATBOT FUNCTIONS
 // =========================
+
+// RENDER GREETING
+function renderGreeting(){
+  const messagesDiv = document.getElementById("chat-messages");
+  const userName = localStorage.getItem("userName") || "User";
+
+  if(messagesDiv.innerHTML.trim() === "" || messagesDiv.innerHTML.includes("bot-greeting")){
+    messagesDiv.innerHTML = `
+      <div class="bot-greeting">
+        <h1>Hello, ${userName}</h1>
+        <p>How can I help you manage your finances today?</p>
+      </div>
+    `;
+  }
+}
+
+// CLEAR CHAT
+function clearChat(){
+  const messagesDiv = document.getElementById("chat-messages");
+  messagesDiv.innerHTML = "";
+  renderGreeting();
+}
 
 // CLOSE CHAT
 function toggleChat(){

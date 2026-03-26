@@ -122,7 +122,7 @@
 <script src="js/config.js"></script>
 <script src="js/home.js"></script>
 <!-- FLOATING CHAT BUTTON -->
-<!-- CHAT CONTAINER (GEMINI STYLE) -->
+<!-- CHAT CONTAINER (REFINED GEMINI STYLE) -->
 <div id="chat-toggle">
   <img src="images/transparent_logo.png" alt="Logo">
 </div>
@@ -134,7 +134,8 @@
       <span>CASH COMPASS</span>
     </div>
     <div class="header-right">
-      <button onclick="toggleChat()">✕</button>
+      <button class="clear-btn" onclick="clearChat()">🗑️</button>
+      <button class="close-btn" onclick="toggleChat()">✕</button>
     </div>
   </div>
 
@@ -143,7 +144,7 @@
   </div>
 
   <div id="typing" style="display:none;">
-    <span>Compass AI is thinking...</span>
+    <div class="shimmer-text">Compass AI is analyzing...</div>
   </div>
 
   <div id="chat-bottom-area">
@@ -155,8 +156,9 @@
 
     <div id="chat-input-pill">
       <button class="pill-icon plus">+</button>
-      <input type="text" id="chat-input" placeholder="Ask anything about your finances..." />
+      <input type="text" id="chat-input" placeholder="What can I help you build?" />
       <div class="pill-controls">
+        <button class="voice-btn">🎤</button>
         <span class="model-name">Compass AI</span>
         <button id="send-btn" onclick="sendChat()">➤</button>
       </div>
