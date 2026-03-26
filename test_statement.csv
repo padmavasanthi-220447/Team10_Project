@@ -1,0 +1,11 @@
+date,type,category,description,amount
+2026-03-20,expense,food,Swiggy Order,250
+2026-03-19,income,salary,Monthly Salary,50000
+2026-03-18,expense,transport,Uber Ride,300
+2026-03-17,expense,shopping,Amazon Purchase,1200
+2026-03-16,expense,entertainment,Netflix Subscription,499
+2026-03-15,expense,transport,Petrol Pump,1000
+2026-03-14,expense,shopping,Flipkart Order,2000
+2026-03-13,expense,bills,Electricity Bill,1500
+2026-03-12,expense,food,Zomato Order,350
+2026-03-11,income,salary,Freelance Payment,10000
