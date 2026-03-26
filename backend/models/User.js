@@ -14,8 +14,19 @@ unique:true
 },
 
 password:{
-type:String,
-required:true
+type:String
+},
+
+googleId:{
+type:String
+},
+
+facebookId:{
+type:String
+},
+
+profilePicture:{
+type:String
 },
 
 lastLogin:{

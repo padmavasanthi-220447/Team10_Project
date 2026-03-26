@@ -6,6 +6,21 @@ let weeklyChart;
 // =========================
 document.addEventListener("DOMContentLoaded", async function(){
 
+  // ✅ HANDLE GOOGLE OAUTH CALLBACK (Extract tokens from URL if present)
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get("token");
+  const userId = urlParams.get("userId");
+  const userName = urlParams.get("name");
+
+  if (token && userId) {
+    localStorage.setItem("token", token);
+    localStorage.setItem("userId", userId);
+    localStorage.setItem("userName", userName || "User");
+    
+    // Clear URL parameters for security
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
   // USERNAME
   document.getElementById("username").textContent =
   localStorage.getItem("userName") || "User";
@@ -28,13 +43,14 @@ document.addEventListener("DOMContentLoaded", async function(){
       chatContainer.style.display = "flex";
 
       const messagesDiv = document.getElementById("chat-messages");
+      const userName = localStorage.getItem("userName") || "User";
 
       if(messagesDiv.innerHTML.trim() === ""){
-        messagesDiv.innerHTML += `
-        <div class="bot-msg">
-        Hi 👋 I’m your Smart Advisor<br><br>
-        Ask me anything about your finances 💡
-        </div>
+        messagesDiv.innerHTML = `
+          <div class="bot-greeting">
+            <h1>Hello, ${userName}</h1>
+            <p>How can I help you manage your finances today?</p>
+          </div>
         `;
       }
     });
@@ -245,6 +261,10 @@ async function sendChat(){
   const messagesDiv = document.getElementById("chat-messages");
   const typing = document.getElementById("typing");
 
+  // Remove initialization greeting if first message
+  const greeting = messagesDiv.querySelector(".bot-greeting");
+  if (greeting) greeting.remove();
+
   messagesDiv.innerHTML += `<div class="user-msg">${message}</div>`;
   input.value = "";
 
@@ -254,8 +274,6 @@ async function sendChat(){
 
   try{
     const transactions = await fetchExpenses();
-
-    // ✅ ADD THIS (NEW)
     const userId = localStorage.getItem("userId");
     const monthlyBudget = localStorage.getItem(`monthlyBudget_${userId}`) || 0;
 
@@ -265,7 +283,7 @@ async function sendChat(){
       body: JSON.stringify({
         message,
         transactions,
-        monthlyBudget   // ✅ FIX
+        monthlyBudget
       })
     });
 

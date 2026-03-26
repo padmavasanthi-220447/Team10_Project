@@ -5,7 +5,7 @@ const {
   getGoals,
   updateGoal,
   deleteGoal,
-  distributeSavingsAPI,
+  distributeSavingsAPI 
 } = require("../controllers/goalController");
 
 router.post("/add", addGoal);
