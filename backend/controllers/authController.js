@@ -11,7 +11,8 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK_URL,
+      callbackURL: "/api/auth/google/callback",
+      proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -179,10 +180,14 @@ exports.googleCallback = async (req, res) => {
       expiresIn: "7d",
     });
 
-    // Redirect to frontend with token
-    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5000";
+    // Redirect to frontend dynamically finding url
+    let protocol = req.headers['x-forwarded-proto'] || req.protocol;
+    // On Render and other services behind proxies, host might be x-forwarded-host
+    let host = req.headers['x-forwarded-host'] || req.get('host');
+    const dynamicFrontendUrl = `${protocol}://${host}`;
+
     res.redirect(
-      `${frontendUrl}/home.html?token=${token}&userId=${user._id}&name=${encodeURIComponent(user.name)}&email=${user.email}`
+      `${dynamicFrontendUrl}/home.html?token=${token}&userId=${user._id}&name=${encodeURIComponent(user.name)}&email=${user.email}`
     );
   } catch (err) {
     res.status(500).json({ message: "Authentication failed" });
@@ -191,6 +196,10 @@ exports.googleCallback = async (req, res) => {
 
 // ✅ GET GOOGLE AUTH URL (for frontend)
 exports.getGoogleAuthUrl = (req, res) => {
-  const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.GOOGLE_CALLBACK_URL)}&response_type=code&scope=openid%20email%20profile`;
+  let protocol = req.headers['x-forwarded-proto'] || req.protocol;
+  let host = req.headers['x-forwarded-host'] || req.get('host');
+  let dynamicCallbackUrl = `${protocol}://${host}/api/auth/google/callback`;
+
+  const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(dynamicCallbackUrl)}&response_type=code&scope=openid%20email%20profile`;
   res.json({ authUrl: googleAuthUrl });
 };
