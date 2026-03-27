@@ -2,6 +2,7 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
+const emailService = require("../services/emailService");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 // ✅ CONFIGURE GOOGLE PASSPORT STRATEGY
@@ -26,6 +27,8 @@ passport.use(
             password: null, // No password for Google OAuth users
           });
           await user.save();
+          // ✅ EVENT 1: Welcome Email (Google Signup)
+          emailService.sendWelcomeEmail(user).catch(err => console.error("Welcome email failed (Google):", err));
         } else if (!user.googleId) {
           // Link Google account to existing email
           user.googleId = profile.id;
@@ -78,9 +81,12 @@ email,
 password:hashedPassword
 });
 
-await user.save();
+    await user.save();
 
-res.json({message:"User registered successfully"});
+    // ✅ EVENT 1: Welcome Email (Normal Signup)
+    emailService.sendWelcomeEmail(user).catch(err => console.error("Welcome email failed:", err));
+
+    res.json({message:"User registered successfully"});
 
 }catch(err){
 
@@ -117,11 +123,18 @@ user.lastLogin = new Date();
 
 user.loginCount = (user.loginCount || 0) + 1;
 
-await user.save();
+    await user.save();
 
-// ✅ IMPORTANT FIX ENDS HERE
+    // ✅ EVENT 2: Login Alert (Normal Login)
+    const loginInfo = {
+      time: new Date().toLocaleString(),
+      device: req.headers['user-agent'] || "Unknown Device",
+      location: req.ip || "Unknown IP"
+    };
+    emailService.sendLoginAlert(user, loginInfo).catch(err => console.error("Login email failed:", err));
 
-const token =
+    // ✅ IMPORTANT FIX ENDS HERE
+    const token =
   process.env.JWT_SECRET &&
   jwt.sign({ id: user._id.toString() }, process.env.JWT_SECRET, { expiresIn: "7d" });
 
@@ -153,6 +166,14 @@ exports.googleCallback = async (req, res) => {
     user.lastLogin = new Date();
     user.loginCount = (user.loginCount || 0) + 1;
     await user.save();
+
+    // ✅ EVENT 2: Login Alert (Google Login)
+    const loginInfo = {
+      time: new Date().toLocaleString(),
+      device: req.headers['user-agent'] || "Google Authenticator",
+      location: req.ip || "Unknown IP"
+    };
+    emailService.sendLoginAlert(user, loginInfo).catch(err => console.error("Login email failed (Google):", err));
 
     const token = jwt.sign({ id: user._id.toString() }, process.env.JWT_SECRET, {
       expiresIn: "7d",
