@@ -20,6 +20,9 @@ const importRoutes = require("./routes/importRoutes");
 const { initCronJobs } = require("./jobs/cronJobs");
 const app = express();
 
+// ✅ TRUST RENDER SECURE PROXY
+app.set('trust proxy', 1);
+
 // ✅ MIDDLEWARE FIRST
 app.use(
   cors({

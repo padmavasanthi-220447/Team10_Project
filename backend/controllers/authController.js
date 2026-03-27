@@ -182,8 +182,10 @@ exports.googleCallback = async (req, res) => {
 
     // Redirect to frontend dynamically finding url
     let protocol = req.headers['x-forwarded-proto'] || req.protocol;
-    // On Render and other services behind proxies, host might be x-forwarded-host
     let host = req.headers['x-forwarded-host'] || req.get('host');
+    if (host.includes("render.com") || host.includes("vercel.app")) {
+        protocol = "https"; // Strictly enforce https in production environments
+    }
     const dynamicFrontendUrl = `${protocol}://${host}`;
 
     res.redirect(
@@ -198,6 +200,9 @@ exports.googleCallback = async (req, res) => {
 exports.getGoogleAuthUrl = (req, res) => {
   let protocol = req.headers['x-forwarded-proto'] || req.protocol;
   let host = req.headers['x-forwarded-host'] || req.get('host');
+  if (host.includes("render.com") || host.includes("vercel.app")) {
+      protocol = "https"; // Strictly enforce https in production environments
+  }
   let dynamicCallbackUrl = `${protocol}://${host}/api/auth/google/callback`;
 
   const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(dynamicCallbackUrl)}&response_type=code&scope=openid%20email%20profile`;
