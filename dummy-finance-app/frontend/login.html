@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dummy Finance - Login</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="card" style="max-width: 520px;">
+        <header>
+          <div class="brand">
+            <h1>Dummy Finance Provider</h1>
+            <p>Login using email + phone.</p>
+          </div>
+        </header>
+
+        <section class="section">
+          <h2>Login</h2>
+
+          <form id="loginForm">
+            <div class="field">
+              <label for="email">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+              />
+            </div>
+
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder="Enter phone number"
+                autocomplete="tel"
+                required
+              />
+            </div>
+
+            <div class="form-actions">
+              <button class="btn primary" type="submit">
+                <span id="loginSpinner" class="spinner"></span>
+                <span id="loginBtnText">Login</span>
+              </button>
+            </div>
+          </form>
+
+          <p id="loginMessage" class="message" aria-live="polite"></p>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

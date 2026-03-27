@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CASH-COMPASS - Admin</title>
+
+<link rel="icon" href="images/transparent_logo.png">
+<link rel="stylesheet" href="styles/admin.css">
+
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+<div class="nav-left">
+
+<img src="images/transparent_logo.png" class="nav-logo">
+
+<h2>CASH COMPASS</h2>
+
+</div>
+
+<div class="nav-right">
+<a href="landing.html" class="logout-btn" onclick="return confirmLogout()">Logout</a>
+
+</div>
+</nav>
+<section class="main-section">
+<div class="greeting">
+
+<h1>Hello, <span id="username">User</span> 👋</h1>
+
+</div>
+<div class="cards">
+
+<div class="card">
+<h3>Total Users</h3>
+<p id="totalUsers">0</p>
+</div>
+
+<div class="card">
+<h3>Active Users</h3>
+<p id="activeUsers">0</p>
+</div>
+
+
+
+</div>
+
+</section>
+<h2 align="center">User Activity</h2>
+<table border="1">
+<thead align="center">
+<tr>
+<th>Email</th>
+<th>Login Count</th>
+<th>Last Login</th>
+</tr>
+</thead>
+
+<tbody id="userTable"></tbody>
+
+</table>
+
+
+
+<footer class="footer">
+
+<p>© 2026 CASH COMPASS - A Smart Expense Tracker</p>
+
+</footer>
+<script src="js/admin.js"></script>
+
+</body>
+
+</html>
