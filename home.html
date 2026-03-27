@@ -8,6 +8,7 @@
 <title>CASH-COMPASS - Home</title>
 
 <link rel="icon" href="images/transparent_logo.png">
+<link rel="stylesheet" href="styles/theme.css">
 <link rel="stylesheet" href="styles/home.css">
 
 </head>
@@ -120,48 +121,36 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="js/config.js"></script>
+<script src="js/theme.js"></script>
 <script src="js/home.js"></script>
 <!-- FLOATING CHAT BUTTON -->
-<!-- CHAT CONTAINER (GEMINI STYLE) -->
-<div id="chat-toggle">
-  <img src="images/transparent_logo.png" alt="Logo">
-</div>
+<!-- DEFINITIVE OUTSTANDING CHAT CONTAINER (CASH COMPASS) -->
+<div id="chat-toggle" onclick="toggleChat()">💬</div>
 
 <div id="chat-container">
   <div id="chat-header">
-    <div class="header-left">
+    <div class="header-content">
       <img src="images/transparent_logo.png" alt="Logo">
-      <span>CASH COMPASS</span>
+      <span>CASH COMPASS AI</span>
     </div>
-    <div class="header-right">
-      <button onclick="toggleChat()">✕</button>
-    </div>
+    <button onclick="toggleChat()" class="close-chat-btn">✕</button>
   </div>
 
   <div id="chat-messages">
-    <!-- Greeting and messages will be injected here -->
+    <!-- Forced Grid Suggestions will be injected here -->
   </div>
 
   <div id="typing" style="display:none;">
-    <span>Compass AI is thinking...</span>
+    <div class="shimmer-text">Compass AI is thinking...</div>
   </div>
 
   <div id="chat-bottom-area">
-    <div id="suggestions">
-      <button onclick="quickAsk('Can I save more money?')">✨ Save More</button>
-      <button onclick="quickAsk('Analyze my spending')">📊 Analyze</button>
-      <button onclick="quickAsk('Plan a goal')">🎯 Goal Plan</button>
-    </div>
-
     <div id="chat-input-pill">
       <button class="pill-icon plus">+</button>
-      <input type="text" id="chat-input" placeholder="Ask anything about your finances..." />
-      <div class="pill-controls">
-        <span class="model-name">Compass AI</span>
-        <button id="send-btn" onclick="sendChat()">➤</button>
-      </div>
+      <input type="text" id="chat-input" placeholder="What can I help you build?" />
+      <button id="send-btn" onclick="sendChat()">➤</button>
     </div>
-    <p class="chat-footer">CASH COMPASS may provide financial guidance. Check for accuracy.</p>
+    <p class="chat-footer">CASH COMPASS AI • Personal Finance Assistant</p>
   </div>
 </div>
 </body>

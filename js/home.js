@@ -34,28 +34,6 @@ document.addEventListener("DOMContentLoaded", async function(){
   // LOAD DASHBOARD
   await loadDashboard();
 
-  // CHAT TOGGLE INIT
-  const chatToggle = document.getElementById("chat-toggle");
-  const chatContainer = document.getElementById("chat-container");
-
-  if(chatToggle){
-    chatToggle.addEventListener("click", () => {
-      chatContainer.style.display = "flex";
-
-      const messagesDiv = document.getElementById("chat-messages");
-      const userName = localStorage.getItem("userName") || "User";
-
-      if(messagesDiv.innerHTML.trim() === ""){
-        messagesDiv.innerHTML = `
-          <div class="bot-greeting">
-            <h1>Hello, ${userName}</h1>
-            <p>How can I help you manage your finances today?</p>
-          </div>
-        `;
-      }
-    });
-  }
-
   // ENTER KEY SUPPORT
   document.getElementById("chat-input").addEventListener("keydown", function(e){
     if(e.key === "Enter"){
@@ -235,9 +213,40 @@ function updateGraph(transactions){
 // CHATBOT FUNCTIONS
 // =========================
 
-// CLOSE CHAT
+// RENDER GREETING (FINAL OUTSTANDING & DEFINITIVE STYLE)
+function renderGreeting(){
+  const messagesDiv = document.getElementById("chat-messages");
+  if(!messagesDiv) return;
+
+  const userName = localStorage.getItem("userName") || "User";
+
+  // Force Clear for 'Nothing Changed' fix - ⚡ GUARANTEE VISIBILITY
+  messagesDiv.innerHTML = ""; 
+
+  messagesDiv.innerHTML = `
+    <div class="welcome-container">
+      <h1 style="color:#1a73e8 !important; font-weight:800; font-size:30px; margin-bottom:10px;">Hello, ${userName} 👋</h1>
+      <p style="color:#333 !important; font-size:16px; margin-bottom:25px; opacity:0.8;">I'm your Personal Finance Assistant. How can I help?</p>
+      
+      <div id="suggestions" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; width:100%; max-width:310px; margin: 0 auto;">
+        <button onclick="quickAsk('Analyze my spending')">📊 <div style="font-weight:600; font-size:13.5px;">Analyze spending</div></button>
+        <button onclick="quickAsk('Saving tips')">💰 <div style="font-weight:600; font-size:13.5px;">Saving tips</div></button>
+        <button onclick="quickAsk('Set a budget goal')">🎯 <div style="font-weight:600; font-size:13.5px;">Manage goals</div></button>
+        <button onclick="quickAsk('How to use this app?')">📱 <div style="font-weight:600; font-size:13.5px;">User guide</div></button>
+      </div>
+    </div>
+  `;
+}
+
+// TOGGLE CHAT
 function toggleChat(){
-  document.getElementById("chat-container").style.display = "none";
+  const container = document.getElementById("chat-container");
+  if(container.style.display === "flex"){
+     container.style.display = "none";
+  } else {
+     container.style.display = "flex";
+     renderGreeting();
+  }
 }
 
 
@@ -262,7 +271,7 @@ async function sendChat(){
   const typing = document.getElementById("typing");
 
   // Remove initialization greeting if first message
-  const greeting = messagesDiv.querySelector(".bot-greeting");
+  const greeting = messagesDiv.querySelector(".welcome-container");
   if (greeting) greeting.remove();
 
   messagesDiv.innerHTML += `<div class="user-msg">${message}</div>`;
@@ -279,7 +288,7 @@ async function sendChat(){
 
     const res = await fetch(window.buildApiUrl("/api/chat"), {
       method:"POST",
-      headers:{ "Content-Type":"application/json" },
+      headers:{ "Content-Type": "application/json" },
       body: JSON.stringify({
         message,
         transactions,
@@ -301,7 +310,7 @@ async function sendChat(){
 }
 
 // goals
-let lastSavings = 0;
+let lastSavings = Number(localStorage.getItem("lastSavings")) || 0;
 
 async function handleSavingsChange(currentSavings){
 
@@ -310,11 +319,13 @@ async function handleSavingsChange(currentSavings){
   console.log("Savings changed:", currentSavings);
 
   lastSavings = currentSavings;
+  localStorage.setItem("lastSavings", currentSavings);
 
   if(currentSavings > 0){
     await updateGoalsFromSavings(currentSavings);
   }
 }
+
 async function updateGoalsFromSavings(savings){
 
   const userId = localStorage.getItem("userId");
@@ -333,6 +344,7 @@ async function updateGoalsFromSavings(savings){
   // refresh goals UI
   loadGoals();
 }
+
 async function loadGoals() {
   const userId = localStorage.getItem("userId");
 
@@ -367,11 +379,12 @@ async function loadGoals() {
     `;
   });
 }
+
 function showGoalForm() {
   const form = document.getElementById("goalForm");
-
   form.style.display = (form.style.display === "flex") ? "none" : "flex";
 }
+
 async function addGoal(){
 
   const userId = localStorage.getItem("userId");
@@ -409,6 +422,7 @@ async function addGoal(){
   // reload goals
   loadGoals();
 }
+
 async function deleteGoal(id){
   await fetch(window.buildApiUrl(`/api/goals/${id}`), {
     method: "DELETE"
@@ -416,6 +430,7 @@ async function deleteGoal(id){
 
   loadGoals();
 }
+
 async function editGoal(id){
 
   const name = prompt("New name:");
@@ -436,21 +451,7 @@ async function editGoal(id){
 
   loadGoals();
 }
-lastSavings = Number(localStorage.getItem("lastSavings")) || 0;
 
-async function handleSavingsChange(currentSavings){
-
-  if(currentSavings === lastSavings) return;
-
-  console.log("Savings changed:", currentSavings);
-
-  lastSavings = currentSavings;
-  localStorage.setItem("lastSavings", currentSavings);
-
-  if(currentSavings > 0){
-    await updateGoalsFromSavings(currentSavings);
-  }
-}
 function calculateSummaryHome(transactions, userId){
 
   // filter current month
