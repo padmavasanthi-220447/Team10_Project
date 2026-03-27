@@ -260,7 +260,6 @@ max-height:350px;
   display: flex !important;
   flex-direction: column;
   background: var(--bg-card) !important;
-  min-height: 400px;
 }
 
 /* OUTSTANDING WELCOME AREA */
@@ -630,8 +629,10 @@ max-height:350px;
   #chat-container {
     width: 95vw;
     right: 2.5vw;
-    height: 520px;
+    height: calc(100vh - 120px);
+    max-height: 520px;
     bottom: 90px;
+    z-index: 9999;
   }
 
   #chat-toggle {
@@ -697,9 +698,11 @@ max-height:350px;
   #chat-container {
     width: 100vw;
     right: 0;
-    bottom: 75px;
+    bottom: 0;
     border-radius: 16px 16px 0 0;
-    height: 500px;
+    height: calc(100vh - 80px); /* Leave room for bottom sheet feeling */
+    max-height: 500px;
+    z-index: 9999;
   }
 
   #chat-toggle {
