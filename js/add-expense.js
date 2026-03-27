@@ -124,7 +124,7 @@ let totalBudget = budget + income + carryData.carryRemaining;
 let totalSavings = savings + carryData.carrySavings;
 
 // ❗ IMPORTANT FIX
-let remaining = totalBudget - (expense + savings);
+let remaining = totalBudget - expense;
 
 return { income, expense, savings: totalSavings, totalBudget, remaining };
 
