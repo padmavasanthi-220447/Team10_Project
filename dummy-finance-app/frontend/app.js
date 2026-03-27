@@ -4,7 +4,7 @@
     return dummyApiOrigin.replace(/\/+$/, "") + path;
   };
 
-  const mainTrackerImportUrl = "http://localhost:5000/import-transactions";
+  let mainTrackerImportUrl = "http://localhost:5000/import-transactions";
 
   const LOGIN_USER_ID_KEY = "dummyFinanceUserId";
   const LOGIN_EMAIL_KEY = "dummyFinanceEmail";
@@ -286,7 +286,21 @@
   }
 
   // Boot.
-  const didLogin = initLoginPage();
-  if (!didLogin) initDashboardPage();
+  async function boot() {
+    try {
+      const configRes = await fetch(dummyApi("/api/config"));
+      if (configRes.ok) {
+        const configData = await configRes.json();
+        if (configData.mainTrackerImportUrl) {
+          mainTrackerImportUrl = configData.mainTrackerImportUrl;
+        }
+      }
+    } catch (e) {
+      console.warn("Could not fetch dummy-finance-app config API", e);
+    }
+    const didLogin = initLoginPage();
+    if (!didLogin) initDashboardPage();
+  }
+  boot();
 })();
 

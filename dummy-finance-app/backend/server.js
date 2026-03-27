@@ -67,6 +67,10 @@ async function start() {
     res.json({ ok: true, port: Number(process.env.PORT) || 5001 });
   });
 
+  app.get("/api/config", (req, res) => res.json({
+    mainTrackerImportUrl: `${process.env.MAIN_TRACKER_URL || "http://localhost:5000"}/import-transactions`
+  }));
+
   // Serve the standalone frontend pages.
   const frontendDir = path.resolve(__dirname, "..", "frontend");
   app.use(express.static(frontendDir));

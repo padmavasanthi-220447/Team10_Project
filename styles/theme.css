@@ -122,3 +122,96 @@
   box-shadow: 0 0 18px rgba(59, 130, 246, 0.35), var(--shadow-md);
   border-color: #3b82f6;
 }
+
+/* ============================================================
+   GLOBAL RESPONSIVE BREAKPOINTS (MOBILE & TABLET)
+   ============================================================ */
+@media (max-width: 768px) {
+  
+  /* Navbar adjustments */
+  .navbar {
+    flex-direction: column !important;
+    padding: 15px 5% !important;
+    gap: 15px !important;
+    text-align: center;
+  }
+  .nav-left {
+    justify-content: center !important;
+  }
+  .nav-right {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+  
+  /* Containers & Padding */
+  .main-section, .page-wrapper {
+    padding: 20px 5% !important;
+  }
+  
+  /* Grid/Card layout stacks (Home, Analytics, Goals) */
+  .cards, .features, .goal-list, .analytics-grid {
+    flex-direction: column !important;
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  
+  /* Tables */
+  .table-container {
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    padding-bottom: 10px !important;
+  }
+  table {
+    width: 100% !important;
+    display: block !important;
+  }
+  
+  /* Forms (Login, Add-Expense) */
+  .login-container, .form-container, .auth-container {
+    width: 90% !important;
+    margin: 30px auto !important;
+    padding: 25px !important;
+  }
+  
+  form .input-group, form input, form select, form button {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Typography Scaling */
+  .greeting h1, .hero h1, h1 {
+    font-size: 26px !important;
+  }
+  h2 {
+    font-size: 22px !important;
+  }
+  
+  /* Feature adjustments strictly for Cash Compass Layouts */
+  .feature-card, .card, .chart-section {
+    width: 100% !important;
+    margin: 0 0 15px 0 !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Theme Toggle shift to prevent UI clipping */
+  #theme-toggle {
+    top: 10px !important;
+    right: 10px !important;
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 16px !important;
+  }
+  
+  /* Chat window scale down */
+  #chat-container {
+    width: 90% !important;
+    right: 5% !important;
+    bottom: 80px !important;
+    height: 60vh !important;
+  }
+  
+  #suggestions {
+    grid-template-columns: 1fr !important;
+  }
+}
+

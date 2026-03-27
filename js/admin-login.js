@@ -1,7 +1,7 @@
 // ==========================
 // API BASE URL
 // ==========================
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "/api";
 
 // ==========================
 // QUOTES
