@@ -24,16 +24,18 @@ function getAnalyticsRequestUrl(queryString) {
   var suffix = (qs ? "?" + qs : "");
   var pr = window.location.protocol;
   var primaryPath = "/analytics-data" + suffix;
-  var fallbackPath = "/api/analytics" + suffix;
 
+  // For file:// protocol (opening HTML directly)
   if (pr !== "http:" && pr !== "https:") {
     return "http://localhost:5000" + primaryPath;
   }
+  // For Live Server (port 5500/5501), proxy to backend port 5000
   var port = String(window.location.port || "");
   if (port === "5500" || port === "5501") {
     var h = window.location.hostname || "localhost";
     return pr + "//" + h + ":5000" + primaryPath;
   }
+  // Production (Render) or local Node server — use same origin
   return window.location.origin + primaryPath;
 }
 
@@ -89,17 +91,16 @@ async function loadAnalytics() {
     const body0 = text.replace(/^\uFEFF/, "").trim();
     const looksLikeJson = body0.length > 0 && body0.charAt(0) === "{";
     if (!res.ok || !looksLikeJson) {
-      var fb =
-        window.location.protocol === "http:" || window.location.protocol === "https:"
-          ? window.location.origin + "/api/analytics?" + qs
-          : "http://localhost:5000/api/analytics?" + qs;
-      if (window.location.port === "5500" || window.location.port === "5501") {
-        fb =
-          window.location.protocol +
-          "//" +
-          (window.location.hostname || "localhost") +
-          ":5000/api/analytics?" +
-          qs;
+      // Fallback to /api/analytics route
+      var pr2 = window.location.protocol;
+      var port2 = String(window.location.port || "");
+      var fb;
+      if (pr2 !== "http:" && pr2 !== "https:") {
+        fb = "http://localhost:5000/api/analytics?" + qs;
+      } else if (port2 === "5500" || port2 === "5501") {
+        fb = pr2 + "//" + (window.location.hostname || "localhost") + ":5000/api/analytics?" + qs;
+      } else {
+        fb = window.location.origin + "/api/analytics?" + qs;
       }
       res = await fetch(fb, { headers });
       text = await res.text();
@@ -107,7 +108,7 @@ async function loadAnalytics() {
   } catch (e) {
     console.error(e);
     showError(
-      "Could not reach the server. In folder frontend/backend run: npm run dev — then open http://localhost:5000/login.html (same port as the terminal)."
+      "Could not reach the server. Make sure the backend is running, or check your connection."
     );
     return;
   }

@@ -23,9 +23,22 @@ const app = express();
 // ✅ MIDDLEWARE FIRST
 app.use(
   cors({
-    origin: true,
+    origin: function (origin, callback) {
+      // Allow requests with no origin (e.g. mobile apps, curl, Render health checks)
+      if (!origin) return callback(null, true);
+      const allowed = [
+        "http://localhost:5000",
+        "http://localhost:3000",
+        process.env.FRONTEND_URL,
+        process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
+      ].filter(Boolean);
+      if (allowed.includes(origin)) return callback(null, true);
+      // In production, also allow same-origin (Render serves frontend from the same URL)
+      return callback(null, true);
+    },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 app.use(express.json());
@@ -79,7 +92,7 @@ app.get("/api/health", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Expense Tracker API Running — open /add-expense.html for the app UI.");
+  res.redirect("/login.html");
 });
 
 const publicDir = path.resolve(__dirname, "..");
