@@ -17,6 +17,7 @@ const authMiddleware = require("./middleware/authMiddleware");
 const analyticsController = require("./controllers/analyticsController");
 const uploadRoutes = require("./routes/upload");
 const importRoutes = require("./routes/importRoutes");
+const { initCronJobs } = require("./jobs/cronJobs");
 const app = express();
 
 // ✅ MIDDLEWARE FIRST
@@ -41,8 +42,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ✅ CONNECT DB
-connectDB();
+// ✅ CONNECT DB & START JOBS
+connectDB().then(() => {
+  initCronJobs();
+});
 
 // ✅ ANALYTICS — explicit app.get (works on all Express 5.x builds)
 const optionalAuth = authMiddleware.optionalAuth;

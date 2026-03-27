@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Expense = require("../models/Expense");
+const User = require("../models/User");
+const emailService = require("../services/emailService");
 
 const MONTHS = 12;
 const WEEKS = 5;
@@ -127,6 +129,19 @@ exports.getAnalytics = async (req, res) => {
 
     const categoryExpenses = objectToSortedArray(categoryTotals);
     const currentMonthExpenseDistribution = objectToSortedArray(currentMonthCategoryTotals);
+
+    // ✅ EVENT 3: Report Generated Email (Asynchronous)
+    User.findById(userId).then(userData => {
+      if (userData && userData.email) {
+        const reportInfo = {
+          name: `Financial Report (${new Date().toLocaleDateString()})`,
+          highlights: `you spent the most on ${topCategory || 'various categories'}`,
+          category: topCategory || "General",
+          url: `${process.env.FRONTEND_URL}/home.html`
+        };
+        emailService.sendReportEmail(userData, reportInfo).catch(err => console.error("Report email failed:", err));
+      }
+    }).catch(err => console.error("User lookup for email failed:", err));
 
     return res.status(200).json({
       monthlyBudget,
