@@ -120,3 +120,64 @@ box-shadow: 0 4px 24px rgba(0,0,0,0.5),
 background: rgba(30,41,59,0.9);
 backdrop-filter: blur(8px);
 }
+
+/* =========================
+   MOBILE RESPONSIVENESS
+========================= */
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px 5%;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .nav-right {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav-right a {
+    padding: 7px 12px;
+    font-size: 13px;
+  }
+
+  .analytics-grid {
+    grid-template-columns: 1fr;
+    width: 95%;
+    margin: 25px auto;
+    gap: 20px;
+  }
+
+  .card {
+    min-height: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 12px 4%;
+  }
+
+  .nav-left h2 {
+    font-size: 15px;
+  }
+
+  .analytics-grid {
+    width: 96%;
+    gap: 16px;
+  }
+
+  .card {
+    padding: 18px;
+    min-height: 240px;
+  }
+
+  .card h3 {
+    font-size: 14px;
+  }
+
+  .card canvas {
+    height: 220px !important;
+  }
+}

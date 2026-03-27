@@ -3,6 +3,10 @@ const router = express.Router();
 const expenseController = require("../controllers/expenseController");
 const Expense = require("../models/Expense");
 
+// Budget (DB-backed)
+router.get("/budget", expenseController.getBudget);
+router.post("/budget", expenseController.saveBudget);
+
 // Add Expense
 router.post("/add", expenseController.addExpense);
 

@@ -10,7 +10,7 @@ window.location.href="login.html";
 return;
 }
 
-loadBudget();
+await loadBudget();
 await loadExpenses();
 
 });
@@ -48,9 +48,9 @@ function filterCurrentMonth(transactions) {
 
 
 // ==========================
-// SAVE BUDGET
+// SAVE BUDGET (DB + localStorage)
 // ==========================
-function saveBudget(){
+async function saveBudget(){
 
 let budget = parseFloat(document.getElementById("budgetInput").value);
 
@@ -61,23 +61,50 @@ return;
 
 let userId = localStorage.getItem("userId");
 
+// Save to localStorage as fast cache
 localStorage.setItem(`monthlyBudget_${userId}`, budget);
 
-loadBudget();
-updateSummary();
+// ✅ Save to DB so it works on any device
+try {
+  await fetch(window.buildApiUrl("/api/expenses/budget"), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId, budget })
+  });
+} catch(e) {
+  console.warn("Budget DB save failed:", e);
+}
+
+await loadBudget();
+await updateSummary();
 
 }
 
 
 // ==========================
-// LOAD BUDGET
+// LOAD BUDGET (DB first, localStorage fallback)
 // ==========================
-function loadBudget(){
+async function loadBudget(){
 
 let userId = localStorage.getItem("userId");
+if (!userId) return;
 
+try {
+  const res = await fetch(window.buildApiUrl("/api/expenses/budget?userId=" + encodeURIComponent(userId)));
+  if (res.ok) {
+    const data = await res.json();
+    const dbBudget = data.monthlyBudget || 0;
+    // Update localStorage cache too
+    localStorage.setItem(`monthlyBudget_${userId}`, dbBudget);
+    document.getElementById("monthlyBudget").textContent = "₹" + dbBudget;
+    return;
+  }
+} catch(e) {
+  console.warn("Budget DB load failed, using localStorage:", e);
+}
+
+// Fallback to localStorage
 let budget = parseFloat(localStorage.getItem(`monthlyBudget_${userId}`)) || 0;
-
 document.getElementById("monthlyBudget").textContent = "₹" + budget;
 
 }
@@ -214,12 +241,12 @@ transactions.forEach((item,index)=>{
 let row = table.insertRow();
 
 row.innerHTML = `
-<td>${item.date.split("T")[0]}</td>
-<td class="${item.type}">${item.type}</td>
-<td>${item.category}</td>
-<td>${item.description}</td>
-<td>₹${item.amount}</td>
-<td>
+<td data-label="Date">${item.date.split("T")[0]}</td>
+<td data-label="Type" class="${item.type}">${item.type}</td>
+<td data-label="Category">${item.category}</td>
+<td data-label="Description">${item.description}</td>
+<td data-label="Amount">₹${item.amount}</td>
+<td data-label="Action">
 <button onclick="editExpense(${index})">Edit</button>
 <button onclick="deleteExpense('${item._id}')">Delete</button>
 </td>

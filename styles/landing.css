@@ -293,3 +293,125 @@ color: var(--text-secondary);
   box-shadow: 0 4px 24px rgba(0,0,0,0.4),
               0 0 0 1px rgba(59,130,246,0.08);
 }
+
+/* =========================
+   MOBILE RESPONSIVENESS
+========================= */
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px 5%;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .nav-buttons {
+    gap: 8px;
+  }
+
+  .admin-btn, .learn-btn {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .hero {
+    min-height: 60vh;
+    padding: 40px 5%;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .primary-btn, .secondary-btn {
+    padding: 12px 24px;
+    width: 200px;
+    text-align: center;
+  }
+
+  .features {
+    padding: 50px 5%;
+  }
+
+  .feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+
+  .learn-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .stats {
+    gap: 40px;
+    padding: 40px 20px;
+    flex-wrap: wrap;
+  }
+
+  .cta {
+    padding: 50px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 12px 4%;
+  }
+
+  .logo-text {
+    font-size: 17px;
+  }
+
+  .hero h1 {
+    font-size: 26px;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .features h2 {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+
+  .section-title {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+
+  .stats {
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px 15px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .stat h2 {
+    font-size: 28px;
+  }
+
+  .learn-section {
+    padding: 50px 4%;
+  }
+
+  .cta {
+    padding: 40px 15px;
+  }
+}

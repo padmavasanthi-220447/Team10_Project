@@ -36,6 +36,11 @@ type:Date
 loginCount:{
 type:Number,
 default:0
+},
+
+monthlyBudget:{
+type:Number,
+default:0
 }
 
 });

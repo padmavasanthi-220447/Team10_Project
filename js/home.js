@@ -98,11 +98,22 @@ async function loadDashboard(){
 // =========================
 // UPDATE CARDS
 // =========================
-function updateCards(transactions){
+async function updateCards(transactions){
 
   let userId = localStorage.getItem("userId");
 
+  // ✅ Load budget from DB (falls back to localStorage cache)
   let monthlyBudget = parseFloat(localStorage.getItem(`monthlyBudget_${userId}`)) || 0;
+  try {
+    const budRes = await fetch(window.buildApiUrl("/api/expenses/budget?userId=" + encodeURIComponent(userId)));
+    if (budRes.ok) {
+      const budData = await budRes.json();
+      monthlyBudget = budData.monthlyBudget || 0;
+      localStorage.setItem(`monthlyBudget_${userId}`, monthlyBudget); // update cache
+    }
+  } catch(e) {
+    console.warn("Budget fetch failed, using localStorage:", e);
+  }
 
   const summary = calculateSummaryHome(transactions, userId);
 

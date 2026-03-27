@@ -375,3 +375,147 @@ to { opacity: 0; transform: translateX(50px); }
 box-shadow: 0 4px 24px rgba(0,0,0,0.45),
             0 0 0 1px rgba(59,130,246,0.07);
 }
+
+/* =========================
+   MOBILE RESPONSIVENESS
+========================= */
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px 5%;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .nav-right {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav-right a {
+    padding: 7px 12px;
+    font-size: 13px;
+  }
+
+  .main-section {
+    padding: 30px 5%;
+  }
+
+  .summary-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .expense-form {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  thead {
+    display: none;
+  }
+  table {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  tr {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    margin-bottom: 15px;
+    padding: 15px;
+    box-shadow: var(--shadow-sm);
+  }
+  td {
+    border: none !important;
+    position: relative;
+    padding: 8px 10px 8px 50% !important;
+    text-align: right !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  td:last-child {
+    border-bottom: none !important;
+  }
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    width: 45%;
+    font-weight: 600;
+    text-align: left;
+    color: var(--text-secondary);
+  }
+  td.income, td.expense, td.savings {
+    font-weight: 600;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 12px 4%;
+  }
+
+  .nav-left h2 {
+    font-size: 15px;
+  }
+
+  .main-section {
+    padding: 20px 4%;
+  }
+
+  .main-section h1 {
+    font-size: 22px;
+  }
+
+  .summary-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .summary-card p {
+    font-size: 18px;
+  }
+
+  .expense-form {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .budget-section input {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .budget-section center {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .add-btn {
+    width: 100%;
+  }
+
+  .download-btn {
+    width: 100%;
+  }
+
+  #toast-container {
+    right: 10px;
+    left: 10px;
+  }
+
+  .toast {
+    min-width: unset;
+    width: 100%;
+  }
+}

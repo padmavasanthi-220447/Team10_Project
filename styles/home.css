@@ -572,3 +572,146 @@ max-height:350px;
   background: rgba(255,255,255,0.06);
   border-color: rgba(255,255,255,0.1);
 }
+
+/* =========================
+   MOBILE RESPONSIVENESS
+========================= */
+
+/* Tablet (768px) */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px 5%;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .nav-right {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav-right a {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .main-section {
+    padding: 30px 5%;
+  }
+
+  .greeting h1 {
+    font-size: 26px;
+  }
+
+  .cards {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .card {
+    flex: 1 1 calc(50% - 15px);
+    min-width: 140px;
+    padding: 20px 15px;
+  }
+
+  .chart-section {
+    margin: 20px 5% 0;
+    padding: 20px;
+  }
+
+  .goals-section {
+    margin: 20px 5%;
+  }
+
+  .goal-list {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  #chat-container {
+    width: 95vw;
+    right: 2.5vw;
+    height: 520px;
+    bottom: 90px;
+  }
+
+  #chat-toggle {
+    bottom: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    font-size: 26px;
+  }
+}
+
+/* Mobile (480px) */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 12px 4%;
+  }
+
+  .nav-left h2 {
+    font-size: 16px;
+  }
+
+  .nav-right a {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+
+  .greeting h1 {
+    font-size: 22px;
+  }
+
+  .cards {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .card {
+    flex: 1 1 100%;
+    padding: 18px;
+  }
+
+  .chart-section {
+    margin: 15px 4% 0;
+    padding: 15px;
+  }
+
+  #weeklyChart {
+    max-height: 220px;
+  }
+
+  .goals-section {
+    margin: 15px 4%;
+  }
+
+  .goal-form {
+    flex-direction: column;
+  }
+
+  .goal-form input,
+  .goal-form button {
+    width: 100%;
+  }
+
+  #chat-container {
+    width: 100vw;
+    right: 0;
+    bottom: 75px;
+    border-radius: 16px 16px 0 0;
+    height: 500px;
+  }
+
+  #chat-toggle {
+    bottom: 16px;
+    right: 16px;
+    width: 50px;
+    height: 50px;
+    font-size: 22px;
+  }
+
+  .footer {
+    font-size: 12px;
+    padding: 15px;
+  }
+}
